@@ -1,0 +1,12 @@
+Python/.venv/
+**/__pycache__/
+*.pyc
+Python/Config/settings.yaml
+logs/
+*.sqlite
+*.csv
+*.parquet
+.DS_Store
+!exports/**/*.csv
+!exports/**/*.txt
+!exports/**/*.png
