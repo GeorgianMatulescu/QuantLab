@@ -1,0 +1,349 @@
+function updateWalkForwardDashboard( ...
+    windowAxes,stabilityAxes,windowTable,aggregateTable,summaryTable, ...
+    walkForwardResult,rankingMetric,profileName)
+%UPDATEWALKFORWARDDASHBOARD Renderiza robustez temporal y holdout.
+
+resetDashboardAxes(windowAxes);
+resetDashboardAxes(stabilityAxes);
+
+if isempty(fieldnames(walkForwardResult))
+    showNoData(windowAxes,"No walk-forward run");
+    showNoData(stabilityAxes,"No robustness results");
+    windowTable.Data = table();
+    aggregateTable.Data = table();
+    summaryTable.Data = table();
+    return;
+end
+
+windows = walkForwardResult.window_results;
+aggregate = walkForwardResult.aggregate_results;
+
+windowTable.Data = ...
+    buildWalkForwardWindowDisplayTable(windows);
+aggregateTable.Data = ...
+    buildWalkForwardAggregateDisplayTable( ...
+        aggregate,rankingMetric);
+
+plotWindowOOS(windowAxes,windows);
+plotParameterStability( ...
+    stabilityAxes,aggregate,rankingMetric);
+
+summaryTable.Data = buildWalkForwardSummary( ...
+    walkForwardResult,rankingMetric,profileName);
+
+styleWalkForwardTables(windowTable,aggregateTable);
+end
+
+function plotWindowOOS(ax,windows)
+if isempty(windows)
+    showNoData(ax,"No completed windows");
+    return;
+end
+
+valid = windows.status=="OK" & ...
+    isfinite(windows.validation_expectancy_r);
+windows = windows(valid,:);
+
+if isempty(windows)
+    showNoData(ax,"No valid OOS windows");
+    return;
+end
+
+palette = getQuantLabPalette();
+values = windows.validation_expectancy_r;
+colors = repmat(palette.negative,numel(values),1);
+colors(values>=0,:) = repmat( ...
+    palette.positive,sum(values>=0),1);
+
+bars = bar(ax,1:height(windows),values,0.70);
+bars.FaceColor = "flat";
+bars.CData = colors;
+
+ax.XTick = 1:height(windows);
+ax.XTickLabel = cellstr(windows.window_id);
+yline(ax,0,"--", ...
+    "Color",palette.neutral, ...
+    "HandleVisibility","off");
+
+for i = 1:height(windows)
+    text(ax,i,values(i), ...
+        sprintf("%.2f R",values(i)), ...
+        "HorizontalAlignment","center", ...
+        "VerticalAlignment",alignment(values(i)), ...
+        "FontSize",8);
+end
+
+title(ax,"Selected configuration — next-window OOS");
+ylabel(ax,"OOS Expectancy (R)");
+xlabel(ax,"Walk-forward window");
+grid(ax,"on");
+end
+
+function value = alignment(number)
+if number>=0, value = "bottom"; else, value = "top"; end
+end
+
+function plotParameterStability(ax,aggregate,rankingMetric)
+if isempty(aggregate)
+    showNoData(ax,"No aggregate configurations");
+    return;
+end
+
+[fieldName,~,metricLabel] = ...
+    getWalkForwardRankingDefinition(rankingMetric);
+hasSecond = any( ...
+    strlength(aggregate.parameter_2_name)>0 & ...
+    isfinite(aggregate.parameter_2_value));
+
+if ~hasSecond
+    [x,order] = sort(aggregate.parameter_1_value);
+    y = aggregate.(fieldName)(order);
+    robustness = aggregate.wf_robustness_score(order);
+    orderedAggregate = aggregate(order,:);
+    inactive = ismember(orderedAggregate.activity_status, ...
+        ["INACTIVE_PLATEAU","NO_TRADES"]);
+    palette = getQuantLabPalette();
+
+    if fieldName=="wf_robustness_score"
+        metricColor = palette.wfRobustness;
+    else
+        metricColor = palette.parameterStability;
+    end
+
+    hold(ax,"on");
+    plot(ax,x,y,"-", ...
+        "Color",metricColor, ...
+        "LineWidth",1.40, ...
+        "DisplayName",metricLabel);
+
+    scatter(ax,x(~inactive),y(~inactive),28, ...
+        metricColor,"filled", ...
+        "DisplayName","Active / transition");
+
+    if any(inactive)
+        scatter(ax,x(inactive),y(inactive),36, ...
+            [0.55 0.55 0.55],"s","filled", ...
+            "DisplayName","Inactive equivalent");
+    end
+
+    if fieldName~="wf_robustness_score"
+        plot(ax,x,robustness,"--", ...
+            "Color",palette.wfRobustness, ...
+            "LineWidth",1.15, ...
+            "DisplayName","WF Robustness");
+    end
+
+    yline(ax,0,":", ...
+        "Color",[0.35 0.35 0.35], ...
+        "HandleVisibility","off");
+    hold(ax,"off");
+
+    xlabel(ax,aggregate.parameter_1_label(1));
+    ylabel(ax,metricLabel);
+    title(ax,"Parameter stability across OOS windows");
+    legend(ax,"show","Location","best");
+    grid(ax,"on");
+    return;
+end
+
+xValues = unique(aggregate.parameter_2_value,"sorted");
+yValues = unique(aggregate.parameter_1_value,"sorted");
+matrix = nan(numel(yValues),numel(xValues));
+
+for i = 1:height(aggregate)
+    row = find(yValues==aggregate.parameter_1_value(i),1);
+    column = find(xValues==aggregate.parameter_2_value(i),1);
+    matrix(row,column) = aggregate.(fieldName)(i);
+end
+
+imagesc(ax,xValues,yValues,matrix);
+ax.YDir = "normal";
+colormap(ax,parula(256));
+colorbar(ax);
+xlabel(ax,aggregate.parameter_2_label(1));
+ylabel(ax,aggregate.parameter_1_label(1));
+title(ax,metricLabel + " — walk-forward surface");
+end
+
+function summary = buildWalkForwardSummary( ...
+    result,rankingMetric,profileName)
+
+plan = result.plan;
+state = result.run_state;
+holdout = result.holdout;
+consensus = result.consensus;
+
+configuration = "N/A";
+plateau = "N/A";
+robustness = "N/A";
+activity = "N/A";
+equivalent = "N/A";
+targetHits = "N/A";
+activityWarning = "N/A";
+
+if ~isempty(consensus)
+    configuration = formatConfiguration(consensus);
+    plateau = formatNumber(consensus.plateau_score(1));
+    robustness = formatNumber( ...
+        consensus.wf_robustness_score(1));
+    activity = consensus.activity_status(1);
+    equivalent = string( ...
+        consensus.equivalent_configurations(1));
+    targetHits = string( ...
+        consensus.total_oos_target_exits(1));
+
+    if consensus.total_oos_target_exits(1)==0
+        activityWarning = ...
+            "No OOS target exits: parameter region is unreachable";
+    elseif consensus.equivalent_configurations(1)>1
+        activityWarning = ...
+            "Consensus belongs to an equivalent plateau";
+    else
+        activityWarning = "No inactivity warning";
+    end
+end
+
+holdoutPeriod = "Not reserved";
+
+if holdout.reserved
+    holdoutPeriod = ...
+        string(holdout.start,"yyyy-MM-dd") + ...
+        " → " + string(holdout.end,"yyyy-MM-dd");
+end
+
+holdoutResult = holdout.status;
+
+if holdout.status=="EVALUATED"
+    holdoutResult = sprintf( ...
+        "%.3f R | $%.2f | DD %.2f %%", ...
+        holdout.expectancy_r,holdout.net_pnl_usd, ...
+        holdout.max_drawdown_pct);
+end
+
+metrics = [ ...
+    "Profile"; ...
+    "Window mode"; ...
+    "Training sessions"; ...
+    "Validation sessions"; ...
+    "Step sessions"; ...
+    "Development sessions"; ...
+    "Walk-forward windows"; ...
+    "Completed windows"; ...
+    "Completed backtests"; ...
+    "Selection metric"; ...
+    "Aggregate ranking"; ...
+    "Consensus configuration"; ...
+    "Consensus plateau score"; ...
+    "Consensus WF robustness"; ...
+    "Consensus activity"; ...
+    "Equivalent configurations"; ...
+    "OOS target exits"; ...
+    "Activity warning"; ...
+    "Holdout sessions"; ...
+    "Holdout period"; ...
+    "Holdout status/result"; ...
+    "Anti-overfit rule"];
+
+values = [ ...
+    profileName; ...
+    plan.mode; ...
+    string(plan.training_sessions); ...
+    string(plan.validation_sessions); ...
+    string(plan.step_sessions); ...
+    string(plan.development_sessions); ...
+    string(height(plan.windows)); ...
+    string(state.completed_windows); ...
+    string(state.completed_runs); ...
+    result.selection_metric; ...
+    rankingMetric; ...
+    configuration; ...
+    plateau; ...
+    robustness; ...
+    activity; ...
+    equivalent; ...
+    targetHits; ...
+    activityWarning; ...
+    string(holdout.sessions); ...
+    holdoutPeriod; ...
+    holdoutResult; ...
+    "Holdout is excluded from ranking"];
+
+summary = table(metrics,values, ...
+    'VariableNames',{'Metric','Value'});
+end
+
+function value = formatConfiguration(row)
+value = row.parameter_1_label(1) + "=" + ...
+    formatPlainNumber(row.parameter_1_value(1),6,true);
+
+if strlength(row.parameter_2_name(1))>0
+    value = value + ", " + ...
+        row.parameter_2_label(1) + "=" + ...
+        formatPlainNumber(row.parameter_2_value(1),6,true);
+end
+end
+
+function value = formatNumber(number)
+if isfinite(number)
+    value = string(sprintf("%.5f",number));
+else
+    value = "N/A";
+end
+end
+
+function styleWalkForwardTables(windowTable,aggregateTable)
+try
+    removeStyle(windowTable);
+    removeStyle(aggregateTable);
+
+    positiveStyle = uistyle( ...
+        "BackgroundColor",[0.88 0.96 0.88]);
+    negativeStyle = uistyle( ...
+        "BackgroundColor",[1.00 0.90 0.90]);
+    bestStyle = uistyle( ...
+        "BackgroundColor",[0.86 0.94 1.00], ...
+        "FontWeight","bold");
+    inactiveStyle = uistyle( ...
+        "BackgroundColor",[0.93 0.93 0.93], ...
+        "FontColor",[0.35 0.35 0.35]);
+
+    if istable(windowTable.Data) && ...
+            ismember("OOSExpectancyR", ...
+                string(windowTable.Data.Properties.VariableNames))
+        oosExpectancy = str2double( ...
+            windowTable.Data.OOSExpectancyR);
+        positiveRows = find(oosExpectancy>=0);
+        negativeRows = find(oosExpectancy<0);
+
+        for row = reshape(positiveRows,1,[])
+            addStyle(windowTable,positiveStyle,"row",row);
+        end
+        for row = reshape(negativeRows,1,[])
+            addStyle(windowTable,negativeStyle,"row",row);
+        end
+    end
+
+    if height(aggregateTable.Data)>=1
+        addStyle(aggregateTable,bestStyle,"row",1);
+    end
+
+    if istable(aggregateTable.Data) && ...
+            ismember("Activity", ...
+                string(aggregateTable.Data.Properties.VariableNames))
+        inactiveRows = find(ismember( ...
+            aggregateTable.Data.Activity, ...
+            ["INACTIVE_PLATEAU","NO_TRADES"]));
+
+        for row = reshape(inactiveRows,1,[])
+            addStyle(aggregateTable,inactiveStyle,"row",row);
+        end
+    end
+catch
+end
+end
+
+function showNoData(ax,message)
+text(ax,0.5,0.5,message, ...
+    "HorizontalAlignment","center", ...
+    "VerticalAlignment","middle");
+end

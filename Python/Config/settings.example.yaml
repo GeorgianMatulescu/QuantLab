@@ -1,0 +1,35 @@
+ibkr:
+  host: 127.0.0.1
+  port: 4001
+  client_id: 12
+  # El puerto anterior tiene prioridad. Si no responde, se prueban
+  # automáticamente IB Gateway LIVE/PAPER y TWS LIVE/PAPER.
+  auto_detect: true
+  auto_detect_ports: [4001, 4002, 7496, 7497]
+  connect_timeout_seconds: 20
+  historical_timeout_seconds: 45
+  historical_retries: 3
+
+databento:
+  dataset: GLBX.MDP3
+  schema: ohlcv-1m
+  # v = contrato con mayor volumen del día anterior; sin back-adjustment.
+  roll_rule: v
+  rank: 0
+
+storage:
+  root: ../data
+  sqlite: true
+  csv: true
+  parquet: false
+
+logging:
+  level: INFO
+  folder: ../logs/python
+
+historical:
+  what_to_show: TRADES
+  format_date: 2
+  keep_up_to_date: false
+  target_time_zone: America/New_York
+  query_head_before_download: false

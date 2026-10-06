@@ -1,0 +1,18 @@
+clear; clc;
+matlabRoot = fileparts(fileparts(mfilename('fullpath')));
+addpath(genpath(matlabRoot));
+cfg = loadQuantLabConfig(matlabRoot);
+[data,~] = loadMarketData(cfg.dataFile,cfg);
+strategyOutput = runStrategy("ORB",data,cfg);
+swingEvents = detectSwingEvents(data,cfg);
+events = [strategyOutput.events; swingEvents];
+events = sortrows(events,["event_time","bar_index","event_type"]);
+market = runMarketStateEngine(data,events,cfg);
+assert(height(market.snapshots)==height(data));
+assert(height(market.timeline)==height(events));
+assert(market.finalState.clock.bar_index==height(data));
+assert(market.finalState.structure.swing_high_count>0);
+assert(market.finalState.structure.swing_low_count>0);
+fprintf("TEST MARKET STATE ENGINE SUPERADO\n");
+fprintf("Snapshots: %d\n",height(market.snapshots));
+fprintf("Eventos:   %d\n",height(market.timeline));
