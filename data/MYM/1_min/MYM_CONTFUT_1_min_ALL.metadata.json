@@ -1,0 +1,49 @@
+{
+  "provider": "IBKR_FUT_CHAIN",
+  "symbol": "MYM",
+  "sec_type": "FUT_CHAIN",
+  "exchange": "CBOT",
+  "currency": "USD",
+  "bar_size": "1 min",
+  "what_to_show": "TRADES",
+  "use_rth": false,
+  "rows": 107745,
+  "first_timestamp_utc": "2025-09-21 22:00:00+00:00",
+  "last_timestamp_utc": "2026-10-04 23:59:00+00:00",
+  "head_timestamp": "",
+  "validation": {
+    "duplicates_removed": 0,
+    "rows_with_missing_values_removed": 0,
+    "invalid_ohlc_removed": 0
+  },
+  "source_contracts": [
+    "MYMZ5",
+    "MYMH6",
+    "MYMM6",
+    "MYMU6",
+    "MYMZ6"
+  ],
+  "roll_rule": "next_session_after_volume_crossover",
+  "roll_lookback_days": 45,
+  "prices_adjusted": false,
+  "requested_start_utc": "2024-10-05",
+  "requested_end_utc_exclusive": "2026-10-05",
+  "effective_start_utc": "2025-09-21 22:00:00+00:00",
+  "coverage_status": "PARTIAL_IBKR_LIMIT",
+  "unavailable_contracts": [
+    "MYMU5",
+    "MYMM5",
+    "MYMH5",
+    "MYMZ4"
+  ],
+  "cache_file": "..\\data\\MYM\\1_min\\MYM_FUT_CHAIN_1_min.cache.sqlite",
+  "rolls_file": "..\\data\\MYM\\1_min\\MYM_CONTFUT_1_min_ALL.rolls.csv",
+  "quality_file": "..\\data\\MYM\\1_min\\MYM_CONTFUT_1_min_ALL.quality.csv",
+  "quality": {
+    "symbol": "MYM",
+    "tick_size": 1.0,
+    "off_tick_rows": 0,
+    "zero_volume_rows": 2677,
+    "zero_bar_count_rows": 2677
+  }
+}

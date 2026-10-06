@@ -1,0 +1,19 @@
+{
+  "provider": "IBKR",
+  "symbol": "MNQ",
+  "sec_type": "CONTFUT",
+  "exchange": "CME",
+  "currency": "USD",
+  "bar_size": "1 min",
+  "what_to_show": "TRADES",
+  "use_rth": true,
+  "rows": 112710,
+  "first_timestamp_utc": "2025-07-24 13:30:00+00:00",
+  "last_timestamp_utc": "2026-07-23 20:59:00+00:00",
+  "head_timestamp": "",
+  "validation": {
+    "duplicates_removed": 0,
+    "rows_with_missing_values_removed": 0,
+    "invalid_ohlc_removed": 0
+  }
+}

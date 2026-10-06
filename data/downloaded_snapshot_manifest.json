@@ -1,0 +1,152 @@
+[
+  {
+    "path": "data/MES/1_min/MES_CONTFUT_1_min_ALL.contract_volume.csv",
+    "bytes": 43244,
+    "sha256": "029f0861be302ea029f719c489c7d6195e8a99164d5c82aac849704258f2e86f"
+  },
+  {
+    "path": "data/MES/1_min/MES_CONTFUT_1_min_ALL.csv",
+    "bytes": 17307734,
+    "sha256": "78d6dfc8657628e85a4bd46a5d9af7c5d7b936c502304ee6b08aa804fa294b32"
+  },
+  {
+    "path": "data/MES/1_min/MES_CONTFUT_1_min_ALL.metadata.json",
+    "bytes": 1358,
+    "sha256": "945cfc0460552d477bb8bb7fad2e6b280ede070e3ca52a090726f5ba77b2b156"
+  },
+  {
+    "path": "data/MES/1_min/MES_CONTFUT_1_min_ALL.quality.csv",
+    "bytes": 564,
+    "sha256": "8b8cfaceb316142e38d5cc954707fa73ec75056272ff032a06368ffb14b0c201"
+  },
+  {
+    "path": "data/MES/1_min/MES_CONTFUT_1_min_ALL.rolls.csv",
+    "bytes": 903,
+    "sha256": "a2653899d38104baf835b88854b5451994d9c1f703f3628de26112a93ca7760c"
+  },
+  {
+    "path": "data/MES/1_min/MES_CONTFUT_1_min_ALL.sqlite",
+    "bytes": 20770816,
+    "sha256": "323a42e4898614e41a9abe11eef339df6ba57b99d1dd070c9851a2ee65a82b38"
+  },
+  {
+    "path": "data/MES/1_min/MES_FUT_CHAIN_1_min.cache.sqlite",
+    "bytes": 14589952,
+    "sha256": "fea447b863a475fe70e8c1005fe047fda3440959e8e2e9597f9d8e32db08e879"
+  },
+  {
+    "path": "data/MNQ/1_min/CRT3H_DATASET_AUDIT.md",
+    "bytes": 1467,
+    "sha256": "b602b21fb9cd296c62cec7c08fadac9a29795028689bafb3cfdebb2e1d8b3751"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_ALL.contract_volume.csv",
+    "bytes": 43390,
+    "sha256": "0f621c9b7a28d5ca27b9476f1b29ff4caab5d609dc39d42679b6a2a73bc0a17d"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_ALL.csv",
+    "bytes": 61229581,
+    "sha256": "25b43a2c06e5e3c62209d008c7a9d8f1fb25053aae8399d09991c4e39d0dc24f"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_ALL.metadata.json",
+    "bytes": 1365,
+    "sha256": "b4e4442c7973dd62da993cf8c27a12815986c92719b6ae1156a2cd01bd089721"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_ALL.quality.csv",
+    "bytes": 560,
+    "sha256": "ef93645e6e8d7c90f21db796a669f22d36893e0e85758cccdcbc3243b9413d1e"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_ALL.rolls.csv",
+    "bytes": 906,
+    "sha256": "f8c2fb7e2633a8060df3d81522fb25e79e9df510954eb015e934c773dd9685df"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_ALL.sqlite",
+    "bytes": 115290112,
+    "sha256": "30a14ddcf37d8650568a01a67bcf98dfcc91eb07808923a635a951e96c3af192"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_RTH.csv",
+    "bytes": 19764285,
+    "sha256": "b21cc94c51dd216866a2d1b0de909e23acf0185d51339d743cbcd6cf9bdfb0bc"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_RTH.metadata.json",
+    "bytes": 472,
+    "sha256": "9d9a94c2c68b53b8d2e3df4c5a71c832d75174fb33a2ffc8eede38218898690b"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_CONTFUT_1_min_RTH.sqlite",
+    "bytes": 22282240,
+    "sha256": "0c76b1006b912c4e68563d319c5d5f64cd89c4a0788fde27fb7530c66bb60128"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_FUT_CHAIN_1_min.cache.sqlite",
+    "bytes": 14594048,
+    "sha256": "551a3316aac261ecef94f0d293a175437952dcb75bbd592c44f1f04be6abf075"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_FUT_CHAIN_1_min_ALL.cache.sqlite",
+    "bytes": 270336,
+    "sha256": "6f8ef37ba2eefac23a23b989092a595e72e756c2ae5aa28f13a4e3a29384d0ab"
+  },
+  {
+    "path": "data/MNQ/1_min/MNQ_FUT_CHAIN_1_min_ALL_v2.cache.sqlite",
+    "bytes": 49709056,
+    "sha256": "c33851c7959afc0d6d15a2c69f0fbefca999b283d0ec8348194f61b420ba87f0"
+  },
+  {
+    "path": "data/MYM/1_min/MYM_CONTFUT_1_min_ALL.contract_volume.csv",
+    "bytes": 40631,
+    "sha256": "100a96ec424f2dd875c3037367b6eb5cbb849c9092022efee6b510621b07cf2c"
+  },
+  {
+    "path": "data/MYM/1_min/MYM_CONTFUT_1_min_ALL.csv",
+    "bytes": 17413672,
+    "sha256": "9ae4aae4358a7d2715e4ef935d03d1555e4beaa00b7831663bc88a4812dfcd57"
+  },
+  {
+    "path": "data/MYM/1_min/MYM_CONTFUT_1_min_ALL.metadata.json",
+    "bytes": 1360,
+    "sha256": "66456e56f8d67aaf8bb169a7dfdbc6809fda13a2a772d812e930fce1c47455d5"
+  },
+  {
+    "path": "data/MYM/1_min/MYM_CONTFUT_1_min_ALL.quality.csv",
+    "bytes": 595,
+    "sha256": "d81934d55f18be57f041ddd63a77bb9aa99cd846c282c2713d76c0acb0f9efa3"
+  },
+  {
+    "path": "data/MYM/1_min/MYM_CONTFUT_1_min_ALL.rolls.csv",
+    "bytes": 895,
+    "sha256": "416278ef06384682164d5e60093b36547068f125c633fc84da30e20de09a7923"
+  },
+  {
+    "path": "data/MYM/1_min/MYM_CONTFUT_1_min_ALL.sqlite",
+    "bytes": 19230720,
+    "sha256": "902b7f2116ce57e8792722a09c32964413424c86fc242c63945384c3817293e2"
+  },
+  {
+    "path": "data/MYM/1_min/MYM_FUT_CHAIN_1_min.cache.sqlite",
+    "bytes": 12857344,
+    "sha256": "54088b1e6bef6e801168f1abebca2e0be169a84ac8d60e3ce2437283c12e9b18"
+  },
+  {
+    "path": "data/processed/.gitkeep",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "data/raw/.gitkeep",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "data/README.md",
+    "bytes": 1840,
+    "sha256": "f9f8e57da33e376313dc08e31d9c07b31081752f6ed4b6ef66e7ba7c3c0102e3"
+  }
+]

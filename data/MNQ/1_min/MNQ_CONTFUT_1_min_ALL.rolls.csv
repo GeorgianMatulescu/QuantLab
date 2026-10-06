@@ -1,0 +1,6 @@
+segment,local_symbol,con_id,expiry,start_utc,end_utc_exclusive,roll_rule,roll_trigger_session,roll_effective_session,outgoing_volume,incoming_volume
+1,MNQZ5,730283094,2025-12-19,2025-09-21 22:00:00+00:00,2025-12-16 23:00:00+00:00,next_session_after_volume_crossover,2025-12-16,2025-12-17,533403.0,1705150.0
+2,MNQH6,750150193,2026-03-20,2025-12-16 23:00:00+00:00,2026-03-17 22:00:00+00:00,next_session_after_volume_crossover,2026-03-17,2026-03-18,306895.0,1334242.0
+3,MNQM6,770561201,2026-06-18,2026-03-17 22:00:00+00:00,2026-06-15 22:00:00+00:00,next_session_after_volume_crossover,2026-06-15,2026-06-16,596993.0,1721764.0
+4,MNQU6,793356225,2026-09-18,2026-06-15 22:00:00+00:00,2026-09-15 22:00:00+00:00,next_session_after_volume_crossover,2026-09-15,2026-09-16,396172.0,1615890.0
+5,MNQZ6,815824267,2026-12-18,2026-09-15 22:00:00+00:00,2026-10-05 00:00:00+00:00,next_session_after_volume_crossover,,,,

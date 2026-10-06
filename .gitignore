@@ -10,3 +10,9 @@ logs/
 !exports/**/*.csv
 !exports/**/*.txt
 !exports/**/*.png
+
+# Downloaded market-data snapshot
+!data/**/*.csv
+!data/**/*.sqlite
+!data/**/*.gz
+.venv/
